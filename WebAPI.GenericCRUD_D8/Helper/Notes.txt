@@ -1,0 +1,38 @@
+
+dotnet ef migrations add InitialCreate
+dotnet ef database update
+
+npx kill-port 5001
+
+# Create local certificate:
+dotnet dev-certs https --clean
+dotnet dev-certs https -t
+
+
+
+dotnet build
+dotnet run
+
+Publish App:
+dotnet publish -c Release -p:UseAppHost=false
+
+
+-- Kill Current Connection and Drop MSSQL DB: 
+USE [master]
+GO
+ALTER DATABASE [WebAPIGenericCRUD_D8] SET  SINGLE_USER WITH ROLLBACK IMMEDIATE
+GO
+USE [master]
+GO
+DROP DATABASE [WebAPIGenericCRUD_D8]
+GO
+
+
+Swagger:
+http://localhost:5004/swagger/index.html
+
+
+dotnet add package Microsoft.EntityFrameworkCore --version 8.0.1
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer --version 8.0.1
+dotnet add package Microsoft.EntityFrameworkCore.Tools --version 8.0.1
+
